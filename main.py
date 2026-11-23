@@ -17,7 +17,16 @@ import os
 WORD = "defenestration"
 
 
+def _validate(word: str) -> None:
+    """Enforce the competition gate before writing: exactly one word,
+    1-24 UTF-8 characters, not only whitespace. Fail loudly instead of
+    submitting an entry the gate would refuse."""
+    if not word or len(word) > 24 or word.strip() != word or " " in word:
+        raise SystemExit(f"invalid entry word: {word!r}")
+
+
 def main() -> None:
+    _validate(WORD)
     output_dir = os.environ.get("OUTPUT_DIR", "/output")
     os.makedirs(output_dir, exist_ok=True)
     path = os.path.join(output_dir, "entry.txt")
